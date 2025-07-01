@@ -22,8 +22,8 @@ import static com.thecareercore.thecareercore.dtos.responses.AppResponse.*;
 public class TicketServiceImpl implements TicketService {
     private final AttendeesRepository attendeesRepository;
     private final TicketRepository ticketRepository;
-    private final Integer MAX_TICKET_QUANTITY = 10;
-    private static final LocalDateTime THE_CAREER_CORE_END_EVENT_DATE = LocalDateTime.of(2025,6,15,23,59);
+    private static final Integer MAX_TICKET_QUANTITY = 10;
+    private static final LocalDateTime THE_CAREER_CORE_END_EVENT_DATE = LocalDateTime.of(2025,9,15,23,59);
 
     public TicketServiceImpl(AttendeesRepository attendeesRepository, TicketRepository ticketRepository) {
         this.attendeesRepository = attendeesRepository;
@@ -37,18 +37,30 @@ public class TicketServiceImpl implements TicketService {
         validateTicketPurchaseInput(purchaseTicketRequest.getTicketType(),
                 purchaseTicketRequest.getQuantity());
         Integer quantity = purchaseTicketRequest.getQuantity();
-
+        LocalDateTime now = LocalDateTime.now();
+        validateExactDateTime(now);
         validateTicketPurchaseMaxAndInvalidDate(purchaseTicketRequest, quantity);
-        Ticket ticket = new Ticket();
-        ticket.setAttendees(attendees);
-        ticket.setTicketType(purchaseTicketRequest.getTicketType());
-        ticket.setQuantity(purchaseTicketRequest.getQuantity());
-        ticket.setCreatedAt(purchaseTicketRequest.getBoughtAt());
-        ticket.setPaid(false);
+        Ticket ticket = buildTicketCreation(purchaseTicketRequest, attendees, now);
         ticketRepository.save(ticket);
         PurchaseTicketResponse purchaseTicketResponse = new PurchaseTicketResponse();
         purchaseTicketResponse.setStatusCode(TICKET_PURCHASE_SUCCESS_MESSAGE.getMessage());
         return purchaseTicketResponse;
+    }
+
+    private static void validateExactDateTime(LocalDateTime now) {
+        if (now.isAfter(THE_CAREER_CORE_END_EVENT_DATE)){
+            throw new InvalidTicketPurchase("Cannot purchase ticket after the event has ended");
+        }
+    }
+
+    private static Ticket buildTicketCreation(PurchaseTicketRequest purchaseTicketRequest, Attendees attendees, LocalDateTime now) {
+        Ticket ticket = new Ticket();
+        ticket.setAttendees(attendees);
+        ticket.setTicketType(purchaseTicketRequest.getTicketType());
+        ticket.setQuantity(purchaseTicketRequest.getQuantity());
+        ticket.setCreatedAt(now);
+        ticket.setPaid(false);
+        return ticket;
     }
 
     private void validateTicketPurchaseMaxAndInvalidDate(PurchaseTicketRequest purchaseTicketRequest, Integer quantity) throws InvalidTicketQuantityException {
@@ -57,14 +69,9 @@ public class TicketServiceImpl implements TicketService {
                     String.format("Ticket quantity can not exceed limit: %d", MAX_TICKET_QUANTITY)
             );
         }
-        if (purchaseTicketRequest.getBoughtAt() == null && purchaseTicketRequest.getBoughtAt().isAfter(THE_CAREER_CORE_END_EVENT_DATE)){
-            throw new InvalidTicketPurchase("Cannot purchase ticket after the event has ended");
-        }
     }
-
     private static void validateTicketPurchaseInput(TicketType ticketType, Integer quantity) throws InvalidTicketQuantityException {
         if (quantity == null || quantity <= 0)throw new InvalidTicketQuantityException(INVALID_TICKET_QUANTITY.getMessage());
         if (ticketType == null)throw new InvalidFieldsException("This fields required ");
-
     }
 }

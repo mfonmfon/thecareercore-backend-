@@ -13,7 +13,7 @@ public class PurchaseTicketRequest {
     private Long attendeeID;
     private Integer quantity;
     private TicketType ticketType;
-    private LocalDateTime boughtAt;
+//    private LocalDateTime boughtAt;
 
 
     public Long getAttendeeID() {
@@ -24,13 +24,6 @@ public class PurchaseTicketRequest {
         this.attendeeID = attendeeID;
     }
 
-    public LocalDateTime getBoughtAt() {
-        return boughtAt;
-    }
-
-    public void setBoughtAt(LocalDateTime boughtAt) {
-        this.boughtAt = boughtAt;
-    }
 
     public Integer getQuantity() {
         return quantity;

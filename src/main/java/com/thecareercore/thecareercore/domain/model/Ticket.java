@@ -18,9 +18,8 @@ public class Ticket {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TicketType ticketType;
-    private boolean isPaid;
+    private boolean isPaid = false;
     private LocalDateTime createdAt;
-
 
 
     public Attendees getAttendees() {

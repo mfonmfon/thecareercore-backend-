@@ -26,7 +26,7 @@ public class TicketServiceTest {
         PurchaseTicketRequest purchaseTicketRequest = new PurchaseTicketRequest();
         purchaseTicketRequest.setAttendeeID(attendeeId);
         purchaseTicketRequest.setTicketType(TicketType.valueOf(TicketType.GENERAL_ATTENDEES_TICKET_TYPE.toString()));
-        purchaseTicketRequest.setBoughtAt(LocalDateTime.now());
+//        purchaseTicketRequest.setBoughtAt(LocalDateTime.now());
         purchaseTicketRequest.setQuantity(quantityTicket);
         PurchaseTicketResponse purchaseTicketResponse = ticketService.purchaseTicket(purchaseTicketRequest);
         assertThat(purchaseTicketResponse).isNotNull();
