@@ -6,7 +6,10 @@ public enum AppResponse {
     TICKET_PURCHASE_SUCCESS_MESSAGE("SUCCESS"),
     ATTENDEES_NOT_FOUND_EXCEPTION("Attendee not found"),
     ATTENDEES_REGISTRATION_SUCCESS_MESSAGE("SUCCESS"),
-    ATTENDEES_ALREADY_EXIST_EXCEPTION("Email Already exist");
+    ATTENDEES_ALREADY_EXIST_EXCEPTION("Email Already exist"),
+    CANCEL_TICKET_PURCHASE_EXCEPTION("Ticket canceled successfully"),
+    TICKET_NOT_FOUND_EXCEPTION("Ticket not found exception"),
+    SUCCESS_MESSAGE("SUCCESS");
 //    INVALID_CREDENTIALS_EXCEPTION("Invalid credentials");
 
 

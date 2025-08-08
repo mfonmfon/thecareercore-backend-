@@ -4,6 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AttendeesRepository extends JpaRepository<Attendees, Long> {
 
-    boolean findByEmail(String email);
+//    boolean findByEmail(String email);
 
+    boolean existsByEmail(String email);
 }
+

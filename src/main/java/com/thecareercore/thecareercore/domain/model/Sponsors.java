@@ -6,14 +6,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Users {
+public class Sponsors {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String firstName;
     private String lastName;
-    private String email;
+    private String companyEmail;
     private String phoneNumber;
+    private String companyName;
+    private String companyDescription;
+    private String whereYouHeardCareerCore;
 
 
     public Long getId() {
@@ -40,12 +43,12 @@ public class Users {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getCompanyEmail() {
+        return companyEmail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCompanyEmail(String companyEmail) {
+        this.companyEmail = companyEmail;
     }
 
     public String getPhoneNumber() {
@@ -54,5 +57,29 @@ public class Users {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getCompanyDescription() {
+        return companyDescription;
+    }
+
+    public void setCompanyDescription(String companyDescription) {
+        this.companyDescription = companyDescription;
+    }
+
+    public String getWhereYouHeardCareerCore() {
+        return whereYouHeardCareerCore;
+    }
+
+    public void setWhereYouHeardCareerCore(String whereYouHeardCareerCore) {
+        this.whereYouHeardCareerCore = whereYouHeardCareerCore;
     }
 }

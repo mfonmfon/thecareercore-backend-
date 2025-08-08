@@ -4,8 +4,18 @@ public class AttendeesRegistrationRequest {
     private String firstName;
     private String lastName;
     private String email;
+    private String location;
     private String phoneNumber;
     private String occupation;
+
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     public String getFirstName() {
         return firstName;

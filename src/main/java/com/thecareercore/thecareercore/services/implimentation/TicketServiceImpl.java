@@ -5,12 +5,11 @@ import com.thecareercore.thecareercore.domain.model.Attendees;
 import com.thecareercore.thecareercore.domain.model.Ticket;
 import com.thecareercore.thecareercore.domain.repository.AttendeesRepository;
 import com.thecareercore.thecareercore.domain.repository.TicketRepository;
+import com.thecareercore.thecareercore.dtos.requests.CancelTicketPurchaseRequest;
 import com.thecareercore.thecareercore.dtos.requests.PurchaseTicketRequest;
+import com.thecareercore.thecareercore.dtos.responses.CancelTicketPurchaseResponse;
 import com.thecareercore.thecareercore.dtos.responses.PurchaseTicketResponse;
-import com.thecareercore.thecareercore.exceptions.AttendeesNotFoundException;
-import com.thecareercore.thecareercore.exceptions.InvalidFieldsException;
-import com.thecareercore.thecareercore.exceptions.InvalidTicketPurchase;
-import com.thecareercore.thecareercore.exceptions.InvalidTicketQuantityException;
+import com.thecareercore.thecareercore.exceptions.*;
 import com.thecareercore.thecareercore.services.interfaces.TicketService;
 import org.springframework.stereotype.Service;
 
@@ -46,13 +45,23 @@ public class TicketServiceImpl implements TicketService {
         purchaseTicketResponse.setStatusCode(TICKET_PURCHASE_SUCCESS_MESSAGE.getMessage());
         return purchaseTicketResponse;
     }
-
+    @Override
+    public CancelTicketPurchaseResponse cancelTicketPurchase(CancelTicketPurchaseRequest cancelTicketRequest) {
+        Ticket ticket = ticketRepository.findById(cancelTicketRequest.getTicketId()).
+                orElseThrow(()-> new TicketNotFoundException(
+                        String.format(
+                                TICKET_NOT_FOUND_EXCEPTION.getMessage())));
+        ticket.setId(cancelTicketRequest.getTicketId());
+        ticketRepository.delete(ticket);
+        CancelTicketPurchaseResponse cancelTicketPurchaseResponse = new CancelTicketPurchaseResponse();
+        cancelTicketPurchaseResponse.setMessage(CANCEL_TICKET_PURCHASE_EXCEPTION.getMessage());
+        return cancelTicketPurchaseResponse;
+    }
     private static void validateExactDateTime(LocalDateTime now) {
         if (now.isAfter(THE_CAREER_CORE_END_EVENT_DATE)){
             throw new InvalidTicketPurchase("Cannot purchase ticket after the event has ended");
         }
     }
-
     private static Ticket buildTicketCreation(PurchaseTicketRequest purchaseTicketRequest, Attendees attendees, LocalDateTime now) {
         Ticket ticket = new Ticket();
         ticket.setAttendees(attendees);

@@ -2,9 +2,9 @@ package com.thecareercore.thecareercore;
 
 import com.thecareercore.thecareercore.domain.repository.AttendeesRepository;
 import com.thecareercore.thecareercore.dtos.requests.AttendeesRegistrationRequest;
+import com.thecareercore.thecareercore.dtos.requests.BecomeASponsorRequest;
 import com.thecareercore.thecareercore.dtos.responses.AttendeesRegistrationResponse;
-import com.thecareercore.thecareercore.exceptions.AttendeesNotFoundException;
-import com.thecareercore.thecareercore.exceptions.InvalidCredentialException;
+import com.thecareercore.thecareercore.dtos.responses.BecomeASponsorResponse;
 import com.thecareercore.thecareercore.services.interfaces.AttendeeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class AttendeeServiceTest {
@@ -35,11 +33,14 @@ public class AttendeeServiceTest {
         AttendeesRegistrationRequest attendeesRegistrationRequest = new AttendeesRegistrationRequest();
         attendeesRegistrationRequest.setFirstName("Paul");
         attendeesRegistrationRequest.setLastName("Mfon");
-        attendeesRegistrationRequest.setEmail("paul@gmail.com");
+        attendeesRegistrationRequest.setEmail("paul1l@gmail.com");
         attendeesRegistrationRequest.setPhoneNumber("08123115688");
         attendeesRegistrationRequest.setOccupation("Software engineer");
+        attendeesRegistrationRequest.setLocation("Lagos, Nigeria");
         return attendeesRegistrationRequest;
     }
+
+
 
 //    @Test
 //    public void testThatIfAttendeesRegisterWithWrongEmail_throwInvalidExceptions(){
